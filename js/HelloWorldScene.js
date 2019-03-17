@@ -14,7 +14,6 @@ import {
   ViroAnimations,
   ViroBox
 } from 'react-viro'
-import { Z_FULL_FLUSH } from 'zlib'
 
 const distance = -0.5
 
@@ -82,18 +81,20 @@ export default class HelloWorldScene extends Component {
           />
           <ViroAmbientLight color="#eee" />
 
-          {this.staticViroSphere.map(pos => (
-            <ViroSphere
-              onClick={this.changecolor.bind(this)}
-              key={Math.random()}
-              heightSegmentCount={20}
-              widthSegmentCount={20}
-              radius={0.025}
-              position={pos}
-              materials={['blue_sphere']}
-              ref={this._setARNodeRef.bind(this)}
-            />
-          ))}
+          {this.layers.map(({ material, pos }) => {
+            return pos.map(position => (
+              <ViroSphere
+                onClick={this.changecolor.bind(this)}
+                key={Math.random()}
+                heightSegmentCount={20}
+                widthSegmentCount={20}
+                radius={0.025}
+                position={position}
+                materials={[material]}
+                ref={this._setARNodeRef.bind(this)}
+              />
+            ))
+          })}
           {streams.map(pos => pos)}
         </ViroARPlaneSelector>
       </ViroARScene>
